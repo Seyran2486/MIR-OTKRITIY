@@ -1,117 +1,18 @@
-<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#fff4df"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Мир открытий"><link rel="apple-touch-icon" href="icon-180.png"><link rel="manifest" href="manifest.webmanifest">
-<meta name="description" content="Детская обучающая игра для Регины и Каролины: математика, буквы, логика, память и творчество."><title>Мир открытий</title>
-<style>
-:root{--ink:#27334a;--muted:#718096;--paper:#fffaf1;--card:#fff;--pink:#ff8eaa;--yellow:#ffd66b;--green:#8bd8b0;--blue:#91c9ff;--purple:#c4a7ff}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#fff4df,#f1f5ff 65%,#fdf0f5);font-family:ui-rounded,"Arial Rounded MT Bold",system-ui,sans-serif;color:var(--ink);min-height:100vh}
-header{padding:20px 18px 10px;max-width:850px;margin:auto;display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:950;font-size:22px;letter-spacing:-.6px}.logo span{display:block;font-size:12px;color:var(--muted);font-weight:700;letter-spacing:0}
-.pill{background:#fff;border:2px solid #f0e6d8;border-radius:99px;padding:8px 12px;font-weight:800}
-main{max-width:850px;margin:auto;padding:12px 16px 44px}
-.hero{background:linear-gradient(120deg,#fff,#fff5e4);border:2px solid #fff;border-radius:28px;padding:22px;box-shadow:0 12px 30px #34405b12;position:relative;overflow:hidden}
-.hero h1{font-size:clamp(27px,6vw,42px);line-height:1.04;margin:0 0 9px;letter-spacing:-1.5px}.hero p{margin:0;color:var(--muted);font-weight:650}
-.hero .sun{position:absolute;right:14px;top:10px;font-size:76px;transform:rotate(12deg)}
-.section-title{font-size:20px;margin:25px 4px 12px}
-.children,.worlds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.child,.world{border:2px solid #fff;background:#fff;border-radius:22px;padding:15px;text-align:left;box-shadow:0 8px 22px #34405b0c;cursor:pointer;color:var(--ink);font:inherit}
-.child.active{outline:3px solid #9cc9ff;background:#f7fbff}.avatar{font-size:35px;display:block;margin-bottom:5px}.child strong{font-size:17px}.child small{display:block;color:var(--muted);margin-top:3px}
-.world{min-height:150px;position:relative;overflow:hidden;transition:.15s}.world:active,.child:active,.answer:active{transform:scale(.98)}
-.world .emoji{font-size:39px;display:block}.world strong{display:block;font-size:17px;margin:9px 0 4px}.world small{color:var(--muted);font-weight:650}.world .bubble{position:absolute;width:95px;height:95px;border-radius:50%;right:-24px;bottom:-28px;opacity:.22}
-.progress{height:8px;background:#edf0f5;border-radius:20px;margin-top:10px;overflow:hidden}.progress i{display:block;height:100%;background:#79c9a0;border-radius:20px}
-.primary{border:0;background:#27334a;color:white;border-radius:16px;padding:14px 18px;font:inherit;font-weight:850;cursor:pointer;width:100%;margin-top:14px}
-.secondary{border:2px solid #e9edf3;background:#fff;color:var(--ink);border-radius:14px;padding:11px 14px;font:inherit;font-weight:800;cursor:pointer}
-.panel{background:#fff;border:2px solid #fff;border-radius:26px;padding:20px;box-shadow:0 12px 30px #34405b12}
-.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}
-.question{font-size:25px;line-height:1.2;margin:12px 0 20px;font-weight:950;letter-spacing:-.5px}
-.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.answer{background:#f7f8fc;border:2px solid #edf0f5;border-radius:17px;padding:16px 10px;font:inherit;font-size:21px;font-weight:900;color:var(--ink);cursor:pointer;min-height:62px}
-.answer.correct{background:#e5f8ec;border-color:#75c99a}.answer.wrong{background:#fff0f0;border-color:#ffaaaa}
-.feedback{margin-top:15px;padding:13px;border-radius:15px;font-weight:850;display:none}.feedback.show{display:block}.feedback.good{background:#e5f8ec;color:#22633f}.feedback.bad{background:#fff0e5;color:#8a4b22}
-.answer:disabled{cursor:default;opacity:1}.world .progress{margin-top:13px}.world .progress i{transition:width .25s}.hero{min-height:150px}.tiny-note{font-size:12px;color:var(--muted);line-height:1.45}.parent-card{padding:14px 0;border-top:1px solid #edf0f5}.badge-best{display:inline-block;background:#fff4d7;border-radius:99px;padding:4px 9px;font-size:12px;font-weight:850}
-footer{text-align:center;color:#8a94a6;font-size:12px;padding:20px}
-.hidden{display:none!important}
-@media(min-width:650px){.worlds{grid-template-columns:repeat(3,minmax(0,1fr))}.children{grid-template-columns:repeat(2,minmax(0,220px))}}
-</style>
-</head>
-<body>
-<header><div class="logo">🌈 Мир открытий<span>маленькие шаги — большие открытия</span></div><button class="pill" id="stars" aria-label="Открыть родительскую статистику">⭐ 0 · Статистика</button></header>
-<main>
-<section id="home">
- <div class="hero"><div class="sun">☀️</div><h1>Привет, исследователь!</h1><p>Выбирай себя, открывай миры и собирай звёздочки за задания.</p><div class="tiny-note" style="margin-top:12px">В каждом мире 5 заданий. Прогресс сохраняется отдельно для каждого игрока в этом браузере.</div></div>
- <h2 class="section-title">Кто сегодня играет?</h2>
- <div class="children">
-  <button class="child active" data-child="Регина"><span class="avatar">🦊</span><strong>Регина</strong><small>6 лет · задания посложнее</small></button>
-  <button class="child" data-child="Каролина"><span class="avatar">🐻</span><strong>Каролина</strong><small>4 года · учимся играя</small></button>
- </div>
- <h2 class="section-title">Выбери волшебный мир</h2><div class="worlds" id="worlds"></div>
- <div class="panel" style="margin-top:16px"><strong>🏆 Твои открытия</strong><p id="summary" style="color:var(--muted);margin-bottom:0">Пока впереди целая гора приключений!</p></div>
-</section>
-<section id="game" class="hidden">
- <div class="topline"><button class="secondary" id="back">← К мирам</button><div class="pill" id="gameProgress">Задание 1 из 3</div></div>
- <div class="panel">
-  <div id="worldName" style="font-weight:900;color:#7b87a0"></div>
-  <div class="question" id="question"></div>
-  <div class="answers" id="answers"></div>
-  <div class="feedback" id="feedback"></div>
-  <button class="primary hidden" id="next">Дальше →</button>
- </div>
-</section>
-<section id="parents" class="hidden">
- <div class="topline"><button class="secondary" id="parentBack">← К игре</button><div class="pill">🔒 Для родителей</div></div>
- <div class="panel"><h2 style="margin-top:0">Результаты исследователей</h2><p style="color:var(--muted)">Прогресс хранится на этом устройстве. Здесь можно посмотреть успехи и при необходимости начать заново.</p><div id="parentStats"></div></div>
-</section>
-<section id="finish" class="hidden">
- <div class="panel" style="text-align:center;padding:30px 20px"><div style="font-size:65px">🏆</div><h1>Мир покорён!</h1><p id="finishText" style="color:var(--muted);font-weight:700"></p><div style="font-size:34px;margin:14px">⭐ ⭐ ⭐</div><button class="primary" id="finishBack">Вернуться к приключениям</button></div>
-</section>
-</main>
-<footer>«Мир открытий» · игра сохраняет прогресс отдельно для каждого игрока в этом браузере</footer>
-<script>
-const worlds=[
-{id:'math',emoji:'🌿',name:'Счётная полянка',desc:'Числа и простые примеры',color:'#8bd8b0'},
-{id:'letters',emoji:'🏙️',name:'Город букв',desc:'Буквы и первые слова',color:'#ffb3c6'},
-{id:'logic',emoji:'🏝️',name:'Остров логики',desc:'Думай, сравнивай, находи',color:'#91c9ff'},
-{id:'memory',emoji:'🧠',name:'Долина памяти',desc:'Запоминай и вспоминай',color:'#c4a7ff'},
-{id:'creative',emoji:'🎨',name:'Мастерская фантазии',desc:'Цвета, формы и творчество',color:'#ffd66b'}
-];
-const bank={
-math:{4:[['Сколько яблок? 🍎🍎','2',['1','2','3','4']],['Что больше: 2 или 3?','3',['1','2','3','4']],['Сколько будет 1 + 1?','2',['1','2','3','4']],['У тебя 3 шарика, один улетел. Сколько осталось?','2',['1','2','3','4']],['Посчитай звёздочки: ⭐ ⭐ ⭐ ⭐','4',['2','3','4','5']]],6:[['Сколько будет 4 + 3?','7',['6','7','8','9']],['У Маши 8 конфет, 3 она съела. Сколько осталось?','5',['4','5','6','7']],['Какое число пропущено: 2, 4, 6, ?','8',['7','8','9','10']],['Сколько будет 9 − 4?','5',['3','4','5','6']],['У трёх котов по 2 ушка. Сколько ушек всего?','6',['4','5','6','8']]]},
-letters:{4:[['На какую букву начинается «мама»?','М',['А','М','О','С']],['Найди букву А','А',['О','А','У','И']],['Какая буква первая в слове «кот»?','К',['Т','О','К','М']],['Какая буква спряталась в начале слова «дом»?','Д',['Б','Д','М','О']],['Найди слово «сыр»','СЫР',['С','Ы','Р','СЫР']]],6:[['С какой буквы начинается слово «арбуз»?','А',['Б','А','Р','З']],['Сколько слогов в слове «мама»?','2',['1','2','3','4']],['Выбери слово, а не букву','КОТ',['К','О','Т','КОТ']],['Какая буква последняя в слове «лес»?','С',['Л','Е','С','А']],['Какое слово начинается на букву Б?','БАНАН',['КОТ','ДОМ','БАНАН','СОК']]]},
-logic:{4:[['Что не подходит? 🍎 🍐 🚗','🚗',['🍎','🍐','🚗','🍏']],['Продолжи ряд: 🔴 🔵 🔴 🔵','🔴',['🔴','🟢','🟡','🟣']],['Кто говорит «мяу»?','🐱',['🐶','🐱','🐮','🐔']],['Что нужно надеть на ноги?','👟',['🧤','👟','🧢','🧣']],['Кто живёт в воде?','🐟',['🐱','🐰','🐟','🐶']]],6:[['Продолжи ряд: 1, 3, 5, ?','7',['6','7','8','9']],['Что лишнее: круг, квадрат, банан?','банан',['круг','квадрат','банан','треугольник']],['Что помогает птицам летать?','крылья',['колёса','крылья','плавники','рога']],['Что тяжелее: килограмм пуха или килограмм камней?','Одинаково',['Пух','Камни','Одинаково','Неизвестно']],['Продолжи ряд: понедельник, вторник, ?','среда',['пятница','среда','воскресенье','суббота']]]},
-memory:{4:[['Запомни: 🍓 🍋 🍓. Какой фрукт был дважды?','🍓',['🍋','🍓','🍇','🍎']],['Что обычно светит днём?','☀️',['🌙','⭐','☀️','💡']],['Что было первым? 🐸 🐟 🐰','🐸',['🐟','🐰','🐸','🐱']],['Вспомни ряд: 🟡 🔵 🟢. Какой цвет был последним?','🟢',['🟡','🔵','🟢','🔴']],['Какое животное было сразу после собаки? 🐶 🐱 🐻','🐱',['🐶','🐱','🐰','🦊']]],6:[['Запомни ряд: 🐶 🐱 🐰. Кто был посередине?','🐱',['🐶','🐱','🐰','🦊']],['Какое число было в начале: 5, 2, 8?','5',['2','8','5','3']],['Что было лишним: 🍎 🚲 🍐','🚲',['🍎','🍐','🚲','🍊']],['Вспомни порядок: 🌞 🌧️ 🌈. Что было вторым?','🌧️',['🌞','🌧️','🌈','❄️']],['Какой предмет повторялся: 📘 ✏️ 📘 🧸?','📘',['✏️','📘','🧸','Ничего']]]},
-creative:{4:[['Какого цвета обычно солнышко?','🟡',['🟡','🔵','🟣','⚫']],['Какая фигура похожа на мяч?','Круг',['Квадрат','Круг','Треугольник','Звезда']],['Что можно нарисовать кисточкой?','🎨',['🎨','🥄','👟','🔑']],['Что получится, если смешать синий и жёлтый?','Зелёный',['Красный','Зелёный','Чёрный','Розовый']],['На что похож треугольник?','🔺',['⚪','🟦','🔺','⭐']]],6:[['Сколько углов у треугольника?','3',['2','3','4','5']],['Смешай красный и жёлтый. Какой цвет получится?','Оранжевый',['Зелёный','Фиолетовый','Оранжевый','Голубой']],['Какая фигура имеет 4 равные стороны?','Квадрат',['Круг','Овал','Квадрат','Треугольник']],['Сколько цветов у радуги в привычном счёте?','7',['5','6','7','8']],['Как называется складывание фигур из бумаги?','Оригами',['Мозаика','Оригами','Гравюра','Рисование']]]}
-};
-let child='Регина',age=6,world=null,step=0,score=0,answered=false,questions=[];
-let data={};
-let storageWarningShown=false;function save(){try{localStorage.setItem('mir-open-progress',JSON.stringify(data));}catch(e){console.warn('Хранилище браузера недоступно',e);if(!storageWarningShown){storageWarningShown=true;alert('Этот режим браузера не разрешает сохранять прогресс. Открой игру в обычной вкладке Safari или Chrome.');}}}
-function stats(){return data[child]||{stars:0,done:{},completed:{}}}
-function safeLoad(){try{const raw=localStorage.getItem('mir-open-progress');const parsed=raw?JSON.parse(raw):{};return parsed&&typeof parsed==='object'?parsed:{}}catch(e){return {}}}
-data=safeLoad();
-function renderHome(){
- document.querySelectorAll('.child').forEach(b=>b.classList.toggle('active',b.dataset.child===child));
- document.getElementById('stars').textContent='⭐ '+stats().stars+' · Статистика';
- document.getElementById('worlds').innerHTML=worlds.map(w=>{let n=(stats().best||{})[w.id]||0;return `<button class="world" data-world="${w.id}"><span class="emoji">${w.emoji}</span><strong>${w.name}</strong><small>${w.desc}</small><div class="progress"><i style="width:${n/5*100}%"></i></div><small>${n}/5 лучших ответов</small></button>`}).join('');
- const best=Object.values(stats().best||{}).reduce((a,b)=>a+b,0);const completed=Object.keys(stats().completed||{}).length;
- document.getElementById('summary').textContent=`${child}: ${stats().stars||0} звёздочек · ${best} из 25 лучших ответов · ${completed} из 5 миров начато.`;
- document.querySelectorAll('.world').forEach(b=>b.onclick=()=>start(b.dataset.world));
-}
-function renderParents(){const root=document.getElementById('parentStats');root.innerHTML=['Регина','Каролина'].map(name=>{const d=data[name]||{stars:0,best:{},completed:{}};const best=Object.values(d.best||{}).reduce((a,b)=>a+b,0);const worldsDone=Object.keys(d.completed||{}).length;return `<div class="parent-card"><strong>${name}</strong><p style="color:var(--muted);margin:6px 0">⭐ ${d.stars||0} звёзд · ${best}/25 лучших ответов · ${worldsDone}/5 миров начато</p><div class="tiny-note">${worlds.map(w=>`${w.emoji} ${w.name}: ${(d.best||{})[w.id]||0}/5`).join('　·　')}</div><button class="secondary reset-child" style="margin-top:10px" data-name="${name}">Сбросить прогресс ${name}</button></div>`}).join('');root.querySelectorAll('.reset-child').forEach(b=>b.onclick=()=>{const name=b.dataset.name;if(confirm(`Удалить весь прогресс ${name}? Это действие нельзя отменить.`)){delete data[name];save();renderParents();if(child===name)renderHome();}});}
-function start(id){world=worlds.find(w=>w.id===id);step=0;score=0;questions=[...bank[world.id][age]].sort(()=>Math.random()-.5);show('game');drawQuestion();}
-function drawQuestion(){
- answered=false;const q=questions[step];document.getElementById('worldName').textContent=world.emoji+' '+world.name;document.getElementById('gameProgress').textContent=`Задание ${step+1} из ${questions.length}`;document.getElementById('question').textContent=q[0];
- document.getElementById('feedback').className='feedback';document.getElementById('feedback').textContent='';document.getElementById('next').classList.add('hidden');document.getElementById('next').textContent=step===questions.length-1?'Завершить мир 🏆':'Дальше →';
- document.getElementById('answers').innerHTML=q[2].map(a=>`<button class="answer" type="button">${a}</button>`).join('');
- document.querySelectorAll('.answer').forEach(b=>b.onclick=()=>answer(b,q[1]));
-}
-function answer(btn,correct){if(answered)return;answered=true;let good=btn.textContent===correct;btn.classList.add(good?'correct':'wrong');if(!good)document.querySelectorAll('.answer').forEach(b=>{if(b.textContent===correct)b.classList.add('correct')});
- const f=document.getElementById('feedback');f.textContent=good?'Ура! Правильный ответ! ⭐':'Почти! Запомним правильный ответ и попробуем дальше.';f.className='feedback show '+(good?'good':'bad');if(good)score++;
- document.querySelectorAll('.answer').forEach(b=>b.disabled=true);document.getElementById('next').classList.remove('hidden');
-}
-function next(){step++;if(step<questions.length){drawQuestion();return;}let s=stats();s.best=s.best||{};s.completed=s.completed||{};const previous=s.best[world.id]||0;const improved=Math.max(previous,score);s.stars=(s.stars||0)+(improved-previous);s.best[world.id]=improved;s.completed[world.id]=true;data[child]=s;save();const reward=improved>previous?`Ты получила ещё ${improved-previous} звёздочек!`:`Лучший результат этого мира: ${improved} из 5. Попробуй улучшить его в следующий раз!`;document.getElementById('finishText').textContent=`${child}, твой результат: ${score} из 5 в мире «${world.name}». ${reward}`;document.querySelector('#finish .panel > div').textContent=score===5?'🏆':'⭐';document.querySelector('#finish .panel > h1').textContent=score===5?'Идеально!':'Мир пройден!';show('finish');}
-document.querySelectorAll('.child').forEach(b=>b.onclick=()=>{child=b.dataset.child;age=child==='Регина'?6:4;renderHome();});
-document.getElementById('back').onclick=()=>{show('home');renderHome();};document.getElementById('next').onclick=next;document.getElementById('finishBack').onclick=()=>{show('home');renderHome();};document.getElementById('stars').onclick=()=>{const check=prompt('Вопрос для взрослых: сколько будет 7 + 5?');if(check===null)return;if(check.trim()!=='12'){alert('Не угадали 🙂 Детям пока рано в родительскую зону.');return;}renderParents();show('parents');};document.getElementById('parentBack').onclick=()=>{show('home');renderHome();};
-if(location.protocol!=='file:'&&'serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-renderHome();
-</script></body></html>
+🌈 Мир открытий
+маленькие шаги — большие открытия
+⭐ 0 · Статистика
+☀️
+Привет, исследователь!
+Выбирай себя, открывай миры и собирай звёздочки за задания.
+В каждом мире 5 заданий. Прогресс сохраняется отдельно для каждого игрока в этом браузере.
+Кто сегодня играет?
+🦊
+Регина
+6 лет · задания посложнее
+🐻
+Каролина
+4 года · учимся играя
+Выбери волшебный мир
+🏆 Твои открытия
+Пока впереди целая гора приключений!
+«Мир открытий» · игра сохраняет прогресс отдельно для каждого игрока в этом браузере
