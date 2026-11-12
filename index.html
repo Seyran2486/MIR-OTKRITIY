@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#fff4 mod"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Мир открытий"><link rel="apple-touch-icon" href="icon-180.png"><link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#fff4df"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Мир открытий"><link rel="apple-touch-icon" href="icon-180.png"><link rel="manifest" href="manifest.webmanifest">
 <meta name="description" content="Детская обучающая игра для Регины и Каролины: математика, буквы, логика, память и творчество."><title>Мир открытий</title>
 <style>
 :root{--ink:#27334a;--muted:#718096;--paper:#fffaf1;--card:#fff;--pink:#ff8eaa;--yellow:#ffd66b;--green:#8bd8b0;--blue:#91c9ff;--purple:#c4a7ff}
@@ -101,7 +101,7 @@ function renderHome(){
  document.getElementById('stars').textContent='⭐ '+stats().stars+' · Статистика';
  document.getElementById('worlds').innerHTML=worlds.map(w=>{let n=(stats().best||{})[w.id]||0;return `<button class="world" data-world="${w.id}"><span class="emoji">${w.emoji}</span><strong>${w.name}</strong><small>${w.desc}</small><div class="progress"><i style="width:${n/5*100}%"></i></div><small>${n}/5 лучших ответов</small></button>`}).join('');
  const best=Object.values(stats().best||{}).reduce((a,b)=>a+b,0);const completed=Object.keys(stats().completed||{}).length;
- document.getElementById('summary').textContent=`${child pres}: ${stats().stars||0} звёздочек · ${best} из 25 лучших ответов · ${completed} из 5 миров начато.`;
+ document.getElementById('summary').textContent=`${child}: ${stats().stars||0} звёздочек · ${best} из 25 лучших ответов · ${completed} из 5 миров начато.`;
  document.querySelectorAll('.world').forEach(b=>b.onclick=()=>start(b.dataset.world));
 }
 function renderParents(){const root=document.getElementById('parentStats');root.innerHTML=['Регина','Каролина'].map(name=>{const d=data[name]||{stars:0,best:{},completed:{}};const best=Object.values(d.best||{}).reduce((a,b)=>a+b,0);const worldsDone=Object.keys(d.completed||{}).length;return `<div class="parent-card"><strong>${name}</strong><p style="color:var(--muted);margin:6px 0">⭐ ${d.stars||0} звёзд · ${best}/25 лучших ответов · ${worldsDone}/5 миров начато</p><div class="tiny-note">${worlds.map(w=>`${w.emoji} ${w.name}: ${(d.best||{})[w.id]||0}/5`).join('　·　')}</div><button class="secondary reset-child" style="margin-top:10px" data-name="${name}">Сбросить прогресс ${name}</button></div>`}).join('');root.querySelectorAll('.reset-child').forEach(b=>b.onclick=()=>{const name=b.dataset.name;if(confirm(`Удалить весь прогресс ${name}? Это действие нельзя отменить.`)){delete data[name];save();renderParents();if(child===name)renderHome();}});}
